@@ -198,7 +198,8 @@ function createTorrent(announce, filesKey, filesValue, nameValue, chunkSize, has
 
 
 async function getTorrent(fileEntries) {
-  console.log(fileEntries);
+  console.info(fileEntries);
+  const itemsElement = document.getElementById("items");
   const totalSize = await getTotalSize(fileEntries);
   const chunkSize = 2 ** (Math.floor(Math.log2(totalSize / 1000)));
   document.getElementById("total_size").value = totalSize;
@@ -206,10 +207,16 @@ async function getTorrent(fileEntries) {
   const hashes = [];
 
   const [chunks, files, folderName] = await readInChunks(fileEntries, chunkSize);
-  for (let i = 0; i < chunks.length; i++) {
+  const totalChunks = chunks.length;
+  let i = 0;
+
+  while (i < totalChunks) {
     const hash = await crypto.subtle.digest("SHA-1", chunks[i]);
+    i += 1;
+    itemsElement.textContent = `${i}/${totalChunks} hashes`;
     hashes.push(new Uint8Array(hash));
   }
+  itemsElement.textContent = ``;
 
   const announce = document.getElementById("announce").value;
   const source = document.getElementById("source").value;
@@ -245,7 +252,7 @@ async function getTorrent(fileEntries) {
   link.href = url;
   link.download = filename;
   link.textContent = "Download";
-  document.getElementById("download").append(link);
+  document.getElementById("items").append(link);
 }
 
 
@@ -459,16 +466,11 @@ async function getMediaInfo(fileEntries) {
 /*
   MAIN
 */
-
 function clear() {
   document.getElementById("file").value = '';
   document.getElementById("total_size").value = 0;
   document.getElementById("piece_length").value = 0;
-  document.getElementById("download").innerHTML = "";
-  document.getElementById("items").innerHTML = "";
-  document.getElementById("screenshots").innerHTML = "";
-  document.getElementById("download").innerHTML = "";
-  document.getElementById("mediainfo").innerHTML = "";
+  ["items", "screenshots", "mediainfo"].forEach(id => document.getElementById(id).innerHTML = "");
 }
 
 async function main() {
