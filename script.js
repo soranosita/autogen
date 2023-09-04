@@ -470,7 +470,7 @@ function clear() {
   document.getElementById("file").value = '';
   document.getElementById("total_size").value = 0;
   document.getElementById("piece_length").value = 0;
-  ["items", "screenshots", "mediainfo"].forEach(id => document.getElementById(id).innerHTML = "");
+  ["items", "screenshots", "mediainfo", "content"].forEach(id => document.getElementById(id).innerHTML = "");
 }
 
 async function main() {
