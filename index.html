@@ -1,0 +1,93 @@
+<html>
+
+<head>
+  <style>
+    body {
+      padding: 20px;
+    }
+
+    #dropzone {
+      border: solid 1px black;
+      margin-bottom: 1em;
+      min-height: 150px;
+      padding: 20px;
+      text-shadow: 1px 1px 0 #fff;
+    }
+
+    #items:empty::before {
+      color: #ccc;
+      content: "(Progress will be shown here.)";
+    }
+
+    #content:empty::before {
+      color: #ccc;
+      content: "(Content will be shown here.)";
+    }
+
+    #mediainfo:empty::before {
+      color: #707070;
+      content: "(Media info will be shown here.)";
+    }
+
+    #screenshots:empty::before {
+      color: #ccc;
+      content: "(Screenshots will be shown here.)";
+    }
+
+    #screenshots {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+
+    .screenshot {
+      flex: 0 0 250px;
+      margin: 10px;
+      text-align: right;
+    }
+
+    .screenshot img {
+      max-width: 100%;
+      height: auto;
+      max-height: 250px;
+    }
+  </style>
+  <script type="text/javascript" src="scripts/umd/index.min.js"></script>
+  <script type="text/javascript" src="scripts/ffmpeg.js"></script>
+  <script type="text/javascript" src="scripts/opencv.js"></script>
+</head>
+
+<body>
+  <div id="dropzone" effectAllowed="move">Drop files here!</div>
+
+  <div>
+    <h3>Torrent</h3>
+    <p>
+      <label>Announce: <input type="text" id="announce" value="https://example.org/passkey/announce" size="43"></label>
+      <label>Source: <input type="text" id="source" value="PTP" size="2"></label>
+    </p>
+
+    <span><label>Total size: <input type="number" id="total_size" disabled></label></span>
+    <span><label>Piece length: <input type="number" id="piece_length"></label></span>
+    <p><label>Torrent file: </label><input id="file" type="file" name="file_input" accept=".torrent" size="50"
+        required=""></label></p>
+    <p id="items"></p>
+    <p id="download"></p>
+    <p id="content"></p>
+  </div>
+
+  <div>
+    <h3>Screenshots</h3>
+    <div id="screenshots"></div>
+    <pre id="ffmpeg-log"></pre>
+  </div>
+
+  <div>
+    <h3>Media</h3>
+    <pre id="mediainfo"></pre>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
